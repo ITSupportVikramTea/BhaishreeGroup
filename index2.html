@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Contact Card</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+        }
+
+        .card {
+            width: 340px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            background: #fff;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            height: 140px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            position: relative;
+        }
+
+        .avatar-wrap {
+            width: 88px;
+            /* outer ring size */
+            height: 88px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 4px;
+            /* ring thickness */
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+            position: absolute;
+            bottom: -44px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            /* IMPORTANT: crops/centers the image to fill circle */
+            display: block;
+        }
+
+        .card-body {
+            padding: 70px 20px 30px;
+        }
+
+        .card-body h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-body p {
+            color: #777;
+            margin: 5px 0 20px;
+            font-size: 15px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            text-align: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            padding: 12px 0;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #5a0dbb, #1d65e3);
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+            padding: 0 15px;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-header">
+            <div class="avatar-wrap">
+                <img src="logo.png" alt="Profile Photo" width="82px" class="" />
+            </div>
+        </div>
+        <div class="card-body">
+            <h2>BHAVESH PATEL</h2>
+            <p>Director</p>
+
+            <div class="btn-group">
+                <a id="addContactBtn"
+                    href="https://drive.usercontent.google.com/download?id=106EFdEnwxF3qlBJKny45UsmT0-g_iOws&export=download&authuser=0&confirm=t&uuid=bcfebdf2-b9ba-43c8-9747-1d5ba9d9a57d&at=AKSUxGMtB9YH-q3DQCagB84yrnBk:1760779354871"
+                    class="btn">Add Contact</a>
+                <a id="downloadBtn"
+                    href="https://drive.usercontent.google.com/download?id=106EFdEnwxF3qlBJKny45UsmT0-g_iOws&export=download&authuser=0&confirm=t&uuid=bcfebdf2-b9ba-43c8-9747-1d5ba9d9a57d&at=AKSUxGMtB9YH-q3DQCagB84yrnBk:1760779354871"
+                    download="https://drive.usercontent.google.com/download?id=106EFdEnwxF3qlBJKny45UsmT0-g_iOws&export=download&authuser=0&confirm=t&uuid=bcfebdf2-b9ba-43c8-9747-1d5ba9d9a57d&at=AKSUxGMtB9YH-q3DQCagB84yrnBk:1760779354871"
+                    class="btn">Download vCard</a>
+            </div>
+
+            <div class="small">
+                Tap "Add Contact" on mobile to import the vCard.<br>
+                If not working, use "Download vCard".
+            </div>
+
+            <div id="status" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("addContactBtn").addEventListener("click", function (e) {
+            const vcfUrl = this.getAttribute("href");
+            const status = document.getElementById("status");
+
+            fetch(vcfUrl, { method: "HEAD" })
+                .then((res) => {
+                    if (!res.ok) {
+                        e.preventDefault();
+                        status.innerText = "❌ Contact file not found.";
+                    } else {
+                        status.innerText = "📱 Opening contact import...";
+                    }
+                })
+                .catch(() => {
+                    e.preventDefault();
+                    status.innerText = "⚠️ Unable to access vCard file.";
+                });
+        });
+    </script>
+</body>
+
+</html>
